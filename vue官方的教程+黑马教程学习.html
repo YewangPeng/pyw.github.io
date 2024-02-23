@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+<body>
+    <h1>本源码建议结合教程来看，typora中的前端学习记录.md</h1>
+    <br><br>
+
+    <h1>创建vue实例，watch函数的使用，模板语法——插值</h1>
+    <p>-------------------------------------------------------------------------------------------------------------</p>
+    <div id = 'app'>
+        <p>{{ '表达式' }}称为插值表达式，表达式部分只要是能求得一个结果的都可以写，注意点:</p>
+        <p> 1.使用的数据要存在</p>
+        <p>2.支持的表达式，不是语句if for</p>
+        <p>3.不能在标签属性中使用 {{}}</p>
+
+        <h2>{{ a }}</h1>
+    </div>
+    <script>
+        var data = { a : 1}
+        var vm = new Vue({
+            el : '#app',
+            data :data  //操作的是14行新建的data对象里的a
+            /*{
+                a:'hello h1'            //操作的是h1里的a
+            }*/
+        });
+       // $data.a = 'hello pyw'   虽然你尝试通过$data.a = 'hello pyw'来修改数据，但这种方式绕过了Vue的响应式系统，Vue并不会察觉到数据的变化，因此页面不会自动更新。因此，最终页面上显示的内容仍然是初始化时data对象中a属性的值，即1，而不是你尝试修改的"hello pyw"。
+        data.a = 'hello pyw' //这里修改成功是因为修改的是data对象的属性。
+        vm.$watch('a',function(newVal,oldVal){
+            console.log(newVal,oldVal);
+        })
+        vm.$data.a = 'hello 123'  //这才是通过vm对象修改data对象中a属性的办法,$是访问实例属性的方式
+    </script>
+    <p>-------------------------------------------------------------------------------------------------------------</p>
+    <h1>生命周期体验</h1>
+    <p>-------------------------------------------------------------------------------------------------------------</p>
+    <p>见控制台及源码</p>
+    <h2 id="lifecycle">{{ b }}</h2>
+    <script>
+        var lifecycle = new Vue({
+            el:'#lifecycle',
+            data :{
+                b:2
+            },
+            beforeCreate : function(){
+                console.log('b is:'+this.b)         //b is:undefined
+            },
+            created : function(){
+                console.log('b is:'+this.b)         //b is:2
+            },
+            beforeMount : function(){
+                console.log('b is:'+this.b)         //b is:2
+            },
+            beforeUpdate : function(){
+                console.log('b is:'+this.b)         //b is:3
+            },
+            updated : function(){
+                console.log('b is:'+this.b)         //b is:3
+            },
+            beforeDestroy : function(){
+                console.log('b is:'+this.b)         //没有输出值
+            },
+            destroyed : function(){
+                console.log('b is:'+this.b)         //没有输出值
+            },
+        })
+        lifecycle.$data.b = 3
+    </script>
+     <p>-------------------------------------------------------------------------------------------------------------</p>
+     <h1>模板语法——指令: V-指令</h1>
+     <p>-------------------------------------------------------------------------------------------------------------</p>
+     <h2>v-if：根据表达式的真假条件渲染元素。<br>
+        v-show：根据表达式的真假条件显示或隐藏元素。<br>
+        v-for：基于数组或对象的数据渲染列表。<br>
+        v-on：绑定事件监听器。缩写：'@'<br>
+        v-bind：动态地绑定一个或多个特性，或一个组件 prop。缩写：':'<br>
+        v-model：在表单控件元素上创建双向数据绑定。<br>
+        v-text：更新元素的 textContent。<br>
+        v-html：更新元素的 innerHTML。<br>
+        v-pre：跳过这个元素和它的子元素的编译过程。<br>
+        v-cloak：这个指令保持在元素上直到关联实例结束编译。</h2>
+     <div id="model">
+        <h3 v-if = "seen_if">我是v-if</h3>
+        <h3 v-show = "seen_show">我是v-show</h3>
+        <!-- v-on:可以替换为@ -->
+        <button v-on:click = "点击--">-</button>
+        <span>{{ 点击 }}</span>
+        <button @click = "点击++">+</button>
+        <br>
+        <button v-on:mouseenter = "鼠标划过--">-</button>
+        <span>{{ 鼠标划过 }}</span>
+        <button @mouseenter = "鼠标划过++">+</button>
+        <br>
+        <a v-bind:href="url">url</a>
+        <div @click="click1">
+            click 1...
+            <div @click.stop="click2">      <!-- 不触发父标签 -->
+                click me 
+            </div>
+        </div>
+        <button @click="fn">点击切换显示/隐藏</button>
+        <h2 v-show = "isShow">HELLO</h2>
+        <p>-----------------------------v-on传参------------------------------------------</p>
+        <div style="border: 2px solid black;width: 500px;height: 100px;text-align: center;">
+            <h3>自动售货机</h3>
+            <button @click = "buy(5)">可乐5元</button>
+            <button @click = "buy(10)">咖啡10元</button>
+            <br>
+        </div>
+        <h3>余额：{{ money }}￥</h3>
+        <p>-----------------------------v-show+v-bind+@click案例------------------------------------------</p>
+        <div>
+           <div style="width: 500px;height: 200px;">
+            <img v-bind:src="list[index]"style="width: auto;height: 100%">
+           </div>
+           <button v-show="index > 0" @click="index--">上一页</button>
+           <button v-show="index < list.length-1" @click="index++">下一页</button>
+        </div>
+        <p>-----------------------------v-for渲染列表案例——小彭的书架------------------------------------------</p>
+        <ul>
+            <li v-for="item in books" :key="item.id">  <!--  key:给元素添加的唯一标识，便于Vue进行列表项的正确排序复用 -->
+                <span>{{item.name}}</span>
+                <span>{{item.author}}</span>
+                <button @click="dele(item.id)">删除</button>
+            </li>
+        </ul>
+        <p>-----------------------------v-model实现双向数据绑定------------------------------------------</p>
+        <div>
+            <div>
+                账号：<input type="text" v-model="username">
+            </div>
+            <div>
+                密码：<input type="text" v-model="password">
+            </div>
+            <input type="submit" @click="login">
+            <input type="reset" @click="reset">
+        </div>
+        <p>-----------------------------小鹏记事本------------------------------------------</p>
+        <p>功能：列表渲染、添加、删除、底部统计和清空</p>
+        <div>
+            <h1>小鹏记事本</h1>
+            <input type="text" v-model="addRecord">
+            <button @click="add">添加记录</button> 
+            <ul v-for="(item,index) in todo" :key="item.uid">
+                <li>{{ index+1 }}.{{ item.name }} <button @click="deleRecord(item.uid)">x</button></li>
+            </ul>
+        </div>
+    </div>
+
+     <script>
+        var seen = new Vue({
+            el:'#model',
+            data:{
+                seen_if:true,
+                seen_show:true,
+                点击: 100,
+                鼠标划过:100,
+                url:'https://pyw5115.github.io/blog',
+                isShow: true,
+                money:1000,
+                index:0,
+                username:'',
+                password:'',
+                addRecord:'',
+                list:[
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117203654322.png',
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117203807835.png',
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117204956909.png',
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117205116423.png',
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117205347378.png',
+                    'https://pyw-de-picture.oss-cn-shenzhen.aliyuncs.com/image-20240117205421046.png',
+                    ],
+                books:[
+                    {id:1,name:'《红楼梦》',author:'曹雪芹'},
+                    {id:2,name:'《西游记》',author:'吴承恩'},
+                    {id:3,name:'《三国演义》',author:'罗贯中'},
+                    {id:4,name:'《水浒传》',author:'施耐庵'},
+                ],
+                todo:[
+                    {uid:1,name:'跑步1000m'},
+                    {uid:2,name:'游泳100m'},
+                    {uid:3,name:'跳绳100次'},
+                    {uid:4,name:'阅读《水浒传》'},
+                ],
+            },
+            methods:{
+                click1 : function(){
+                    console.log('click1...')
+                },
+                click2 : function(){
+                    console.log('click2...')
+                },
+                fn : function(){
+                    this.isShow = !this.isShow;
+                },
+                buy(price){
+                    this.money-=price
+                },
+                dele(id){
+                    //通过id删除数组中对应的数据项 用filter
+                    //filter：根据条件，保留满足条件对应的数据项，得到一个新数组
+                    //这里的item只是形参，替换为其他的都可以，但要将箭头后面的也替换掉
+                    //注意，这里不能写this.id,因为箭头函数无法使用this，若写this.id则调用的对象是window，而非传入的item对象元素
+                    this.books = this.books.filter(item => item.id !== id)
+                },
+                login(){
+                    console.log(this.username)
+                },
+                reset(){
+                    this.username='',
+                    this.password=''
+                },
+                add(){
+                    if(this.addRecord !== ''){
+                        this.todo.unshift({
+                        uid: +new Date(),
+                        name: this.addRecord,
+                    }),
+                    this.addRecord = ''
+                    }
+                },
+                deleRecord(uid){
+                    this.todo = this.todo.filter(item => item.uid !== uid)
+                }
+            }
+        })
+     </script>
+     
+</body>
+</html>
