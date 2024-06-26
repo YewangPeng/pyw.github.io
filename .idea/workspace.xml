@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f8435ec-8647-43cc-94b1-c374a76ab8b1" name="Changes" comment="">
+    <list default="true" id="0f8435ec-8647-43cc-94b1-c374a76ab8b1" name="Changes" comment="第一次修改idea">
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,11 +58,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1719382760283</updated>
-      <workItem from="1719382761462" duration="3922000" />
+      <workItem from="1719382761462" duration="4297000" />
     </task>
+    <task id="LOCAL-00001" summary="第一次修改idea">
+      <option name="closed" value="true" />
+      <created>1719389727807</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719389727807</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="第一次修改 --eclipse" />
+    <MESSAGE value="第一次修改idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="第一次修改idea" />
   </component>
 </project>
